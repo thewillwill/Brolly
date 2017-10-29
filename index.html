@@ -27,9 +27,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>                        
       </button>
-                <img class="logo" href="#" src="./images/logo.png">
+
                 <a class="navbar-brand" href="#myPage">
-                    <p>Brolly</p>
+                    <p><img class="logo" href="#" src="./images/logo.png">Brolly</p>
 
                 </a>
             </div>
@@ -229,6 +229,22 @@
                 });
             });
         })
+    </script>
+
+    <p>Google Calendar API Quickstart</p>
+
+    <!--Add buttons to initiate auth sequence and sign out-->
+    <button id="authorize-button" style="display: none;">Authorize</button>
+    <button id="signout-button" style="display: none;">Sign Out</button>
+
+    <pre id="content"></pre>
+
+
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+    <script src="calendar.js"></script>
+
+    <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
 
 </body>
