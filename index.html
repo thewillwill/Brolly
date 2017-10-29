@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
@@ -35,8 +36,9 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav navbar-right">
+                    <li id="authorize-button"><button id="authorize-button" style="display: none;"></button><a>Sign up with Google</a></li>
+                    <li id="signout-button"><button id="authorize-button" style="display: none;"></button><a>Logged in, Sign out</a></li>
                     <li><a href="#about">ABOUT</a></li>
-                    <li><a href="./signup.html">SERVICES</a></li>
                     <li><a href="#portfolio">PORTFOLIO</a></li>
                     <li><a href="#contact">CONTACT</a></li>
                 </ul>
@@ -230,8 +232,8 @@
             });
         })
     </script>
-
-    <p>Google Calendar API Quickstart</p>
+    <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
+    </script>
 
     <!--Add buttons to initiate auth sequence and sign out-->
     <button id="authorize-button" style="display: none;">Authorize</button>
@@ -242,7 +244,7 @@
     <script src="./ui.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
 
-    <script src="calendar.js"></script>
+    <script src="../js/calendar.js"></script>
 
     <script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()">
     </script>
