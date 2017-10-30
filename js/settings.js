@@ -116,7 +116,7 @@ function renderSelectedItems() {
     $("#clothing-items-container").empty();
 
     var textStart = "Alert me to bring ";
-    var $itemID = $("<span>").attr("id", "item name");
+    var $itemID = $("<span>").addClass("item-name");
     var textEnd;
 
     //go through the items and display them 1 per row on page
@@ -137,62 +137,58 @@ function renderSelectedItems() {
         switch (weatherType) {
             case 'sun':
                 textEnd = " when UV index greater than ";
-                sunSlider = $slider.attr({ "type": "range", "value": initialHatPref, "max": 10, "id": "uv-slider" + i });
+                sunSlider = $slider.attr({ "type": "range", "value": getPref(clothingItem), "max": 10, "id": "uv-slider" + i });
                 break;
             case 'temp':
                 textEnd = " when temperature less than ";
-                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": initialSweaterPref, "max": 80, "id": "temp-slider" + i });
+                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": getPref(clothingItem), "max": 80, "id": "temp-slider" + i });
                 break;
             case 'rain':
                 // elements for the rain preferences
                 textEnd = " when chance of rain greater than ";
                 //give each rain slider a unique ID.
-                $slider = $slider.attr({ "type": "range", "value": initialUmbrellaPref, "id": "rain-slider" + i });
+                $slider = $slider.attr({ "type": "range", "value": getPref(clothingItem), "id": "rain-slider" + i });
                 break;
             default:
                 textEnd = " when temperature less than ";
-                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": initialSweaterPref, "max": 80, "id": "temp-slider" + i });
+                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": getPref(clothingItem), "max": 80, "id": "temp-slider" + i });
                 
         }
 
         //set the name of the item in the span.
         $itemID.text($(child).attr("data-item"));
+        console.log('$itemID.text', '$(child).attr("...m"):', $itemID.text())
 
-        $itemControls = $("<p>").append(textStart).append($itemID).append(textEnd);
+        $itemControls = $("<p>").append(textStart).append($itemID).append(textEnd).append(" ");
 
         // console.log(selectedClothingItems[i].attr("data-weather-type"));
         var col2 = $("<div>").addClass("col-8").append($("<div>").addClass("row").append($itemControls).append($slider));
         // console.log('itemControls', $itemControls)
         //append the rows to the page
+
         $("#clothing-items-container").append(newRow.append(col1).append(col2));
     }
 
     //set up each of the sliders to display correct values
     $allSliders = $(".slider");
-
     
+    //go through each slider and add styling and set listeners for change to values    
     for (var i = 0; i < $allSliders.length; i++) {
         var sliderID = $allSliders[i].id;
         var sliderIDSet;
 
-        // var clothingItemSet = false;
-        // clothingItem;
-        // if (!clothingItemSet) {
-        //     clothingItem = $("#" + sliderID).attr("data-item");
-        //     console.log('clothingItem', clothingItem)
-        //     clothingItemSet = true;
-        // }
 
-        $("#" + sliderID).rangeslider({
+       
+        $("#" + sliderID).rangeslider({         
+
             polyfill: false,
             onInit: function() {
-
+                var clothingItem = $(child).attr("data-item");
                 if (sliderID.indexOf("rain") != -1) {
-                    this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val() + "%");
+                    this.output = $('<div class="range-output" />').insertBefore(this.$range).html(getPref(clothingItem) + "%");
 
                 } else {
-                    this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val());
-
+                    this.output = $('<div class="range-output" />').insertBefore(this.$range).html(getPref(clothingItem));
                 }
 
             },
@@ -203,24 +199,34 @@ function renderSelectedItems() {
                 } else {
                     this.output.html(value);
                 }
-
-                //find the clothing item in the objects array and update the preference for that item
-                for (var i = 0; i < clothingObjects.length; i++) {
-                    var clothingItem = $(this.$element[0]).attr("data-item")
-                    // console.log("clothingItem: " + clothingItem);
-                    // console.log('clothingObjects[i].name: ', clothingObjects[i].name, i)
-                    if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
-                        // console.log('clothingObject found at pos: ', i)
-                        clothingObjects[i].pref = parseInt(this.$element.val());
-                    }
-                }
+                updatePref($(this.$element[0]).attr("data-item"), this.$element.val())
             }
         });
     }
 
 }
 
+function updatePref(clothingItem, value) {
+    //go through the clothing objects array and update the preference for the matching item
+    for (var i = 0; i < clothingObjects.length; i++) {
+        if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
+            // console.log('clothingObject found at pos: ', i)
+            clothingObjects[i].pref = parseInt(value);
+        }
+    }
+}
 
+function getPref(clothingItem) {
+  console.log('getPref', 'clothingItem:', clothingItem)
+    //go through the clothing objects array and update the preference for the matching item
+    for (var i = 0; i < clothingObjects.length; i++) {
+        if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
+            // console.log('clothingObject found at pos: ', i)
+            console.log('return', 'clothingObjects...ref:', clothingObjects[i].pref)
+            return clothingObjects[i].pref;
+        }
+    }
+}
 
 
 //----------------------------------
