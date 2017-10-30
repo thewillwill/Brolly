@@ -103,64 +103,100 @@ function renderClothingItems() {
 
 function renderSelectedItems() {
 
-    var slider = "<input type='range' min='1' max='100' value='50' class='slider' id='myRange'>";
-    var $rainSlider = $("input").attr({
-        "type": "range",
-        "min": "1",
-        "max": "100",
-        "value": "50",
-        "class": "slider",
-        "id": "rainChance"
-    });
+
+
+
+    
+    // elements for the temp preferences
+    var tempSlider = "<p>Alert me to bring <span id='item-name'>item</span> when temperature less than </p> <input id='temp-slider' type='range'>";
+    var sunSlider = "<p>Alert me to bring <span id='item-name'>item</span> when UV index greater than </p> <input id='sun-slider' type='range'>";
+
 
     //empty the <div> container
     $("#clothing-items-container").empty();
 
+    var $slider;
+    var textStart = "Alert me to bring ";
+    var $itemID = $("<span>").attr("id","item name");
+    var textEnd;
+
     //go through the items and display them 1 per row on page
     for (var i = 0; i < selectedClothingItems.length; i++) {
         newRow = $("<div>").addClass("row");
-        firstCol = $("<div>").addClass("col-4").append(selectedClothingItems[i]);
-
+        col1 = $("<div>").addClass("col-4").append(selectedClothingItems[i]);
         //select the child element which contains the item data
         var child = selectedClothingItems[i].firstElementChild;
         //get the weather Type data
         var weatherType = $(child).attr("data-weather-type");
 
-        var secondCol;
-        var secondColText;
-
         console.log("weatherType", weatherType);
-        var itemControls;
+
+        var $itemControls;
 
         switch (weatherType) {
             case 'sun':
-                // itemControls = renderItemControls("sun");
+                textEnd = " when UV index greater than";
+                sunSlider = $("<input>").attr({ "type": "range", "id": "uv-slider"+i });
                 break;
             case 'temp':
-                // itemControls = renderItemControls("temp");
+                textEnd = " when temperature less than";
+                tempSlider = $("<input>").attr({ "type": "range", "id": "temp-slider"+i });
                 break;
             case 'rain':
-                itemControls =  $('input[type="range"]').rangeslider();
+                // elements for the rain preferences
+                textEnd = " when chance of rain greater than";
+                //give each rain slider a unique ID.
+                $slider = $("<input>").attr({ "type": "range", "id": "rain-slider"+i});
                 break;
             default:
-                // itemControls = renderItemControls("temp");
-        }
+                $itemControls = tempSlider;
+        } 
+
+        //set the name of the item in the span.
+        $itemID.text($(child).attr("data-item"));
+
+        $itemControls = $("<p>").append(textStart).append($itemID).append(textEnd).append($slider);
+
         // console.log(selectedClothingItems[i].attr("data-weather-type"));
-        secondCol = $("<div>").addClass("col-8").append(itemControls);
-        console.log('itemControls', itemControls)
+        var col2 = $("<div>").addClass("col-8").append($("<div>").addClass("row").append($itemControls));
+        console.log('itemControls', $itemControls)
         //append the rows to the page
-        $("#clothing-items-container").append(newRow.append(firstCol).append(secondCol));
+        $("#clothing-items-container").append(newRow.append(col1).append(col2));
     }
 
 
+    //create rain slider styling
+    $("#rain-slider").rangeslider({
+        polyfill: false,
+        onInit: function() {
+            this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val() + "%");
+        },
+        onSlide: function(position, value) {
+            this.output.html(value + "%");
+        }
+    });
 
-    // $("#clothing-items-container").empty();
-    // for (var i = 0; i < selectedClothingItems.length; i++) {
-    //     newRow = $("<div>").addClass("row");
-    //     firstCol = $("<div>").addClass("col-4").append(selectedClothingItems[i]);
-    //     secondCol = $("<div>").addClass("col-8").text("sample user preferences go here");
-    //     $("#clothing-items-container").append(newRow.append(firstCol).append(secondCol));
-    // }
+    //create sun slider styling
+    $("#uv-slider").rangeslider({
+        polyfill: false,
+        onInit: function() {
+            this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val() + "%");
+        },
+        onSlide: function(position, value) {
+            this.output.html(value + "%");
+        }
+    });
+
+    //create temp slider styling
+    $("#temp-slider").rangeslider({
+        polyfill: false,
+        onInit: function() {
+            this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val());
+        },
+        onSlide: function(position, value) {
+            this.output.html(value);
+        }
+    });
 }
 
 
@@ -178,8 +214,6 @@ $(document).ready(function() {
 
     //show the initial list of clothing items
     renderStep1();
-
-    console.log($('input[type="range"]').rangeslider());
 
     //----------------------------------
     // on click listners
