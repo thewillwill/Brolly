@@ -246,7 +246,20 @@ function getWeatherData(lt, lng) {
 
           eventWeatherList.push(weatherObject);
 
-    });
-  return eventWeatherList;      
+          return eventWeatherList;     
+
+    }); 
 }
 console.log(eventWeatherList);
+
+
+var userPref = [["rain", 50],["uv",5],["temp",50]]; 
+
+$.when( ( getWeatherData ) ).then(function() {
+  alert( "hi" ); 
+  console.log(eventWeatherList);
+  console.log(eventWeatherList.length);
+}); 
+
+
+
