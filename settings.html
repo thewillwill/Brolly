@@ -11,23 +11,22 @@
     <link href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="https://v4-alpha.getbootstrap.com/examples/narrow-jumbotron/narrow-jumbotron.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Homemade+Apple" rel="stylesheet">
-    <link href="ui.css" rel="stylesheet">
+    <link href="css/settings.css" rel="stylesheet">
 </head>
 
 <body>
     <div class="container">
         <div class="header clearfix">
-            <h3 class="text-muted">Closet Items Test</h3>
+            <h3 class="text-muted">Get Started</h3>
         </div>
         <div class="jumbotron">
             <!-- Start Progress Bar -->
             <div class="row justify-content-center">
-                <!-- 1st Column -->
+                <!-- 1st Column - STEP 1 -->
                 <div class="col-2">
                     <div class="row">
                         <div class="col-12" id="progress-icon-step1">
-                            <img src="checkmark.svg " class="progress-check"/>
+                            <!--                             <img src="images/checkmark.svg" class="progress-check"/> -->
                         </div>
                     </div>
                     <div class="row">
@@ -36,12 +35,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- 2nd column -->
-                <div class="col-2 ">
+                <!-- 2nd Col - line -->
+                <div class="col-1">
                     <hr>
                 </div>
-                <!-- 3rd column-->
-                <div class="col-2 ">
+                <!-- 3rd column - STEP 2 -->
+                <div class="col-2">
                     <div class="row">
                         <div class="col-12" id="progress-icon-step2">
                             2
@@ -53,12 +52,12 @@
                         </div>
                     </div>
                 </div>
-                <!-- 4th column-->
-                <div class="col-2 ">
+                <!-- 4th column - line -->
+                <div class="col-1">
                     <hr>
                 </div>
-                <!-- 5th column -->
-                <div class="col-2 ">
+                <!-- 5th column - STEP 3 -->
+                <div class="col-2">
                     <div class="row">
                         <div class="col-12" id="progress-icon-step3">
                             3
@@ -70,29 +69,46 @@
                         </div>
                     </div>
                 </div>
+                <!-- 6th column - line -->
+                <div class="col-1">
+                    <hr>
+                </div>
+                <!-- 7th column - STEP 4 -->
+                <div class="col-2">
+                    <div class="row">
+                        <div class="col-12" id="progress-icon-step4">
+                            4
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="progress-text" id="progress-text-step4">Set Alerts</span>
+                        </div>
+                    </div>
+                </div>
                 <!-- / END 5th column-->
             </div>
             <!-- / END Progress Bar -->
             <div class="row text-center ">
                 <div class="col-12">
-                    <h2 id="step-subheading">Choose items in your closet</h2>
+                    <h2 id="step-subheading"></h2>
                 </div>
             </div>
-            <div class="row text-center ">
+            <div class="row text-center">
+                <div id="test">
+                                    </div>
                 <div class="col-12" id="clothing-items-container">
-                    <span class="imgCheckbox1 "><img src="icons/glasses.png" alt="glasses" data-item="glasses" id="item-glasses" class="clothing-item"></span>
-                    <span class="imgCheckbox1"><img src="icons/hat.png" alt="hat" data-item="hat" id="item-hat" class="clothing-item"></span>
-                    <span class="imgCheckbox1"><img src="icons/jacket.png" alt="jacket" data-item="jacket" id="item-jacket" class="clothing-item"></span>
-                    <span class="imgCheckbox1"><img src="icons/sweater.png" alt="sweater" data-item="sweater" id="item-sweater" class="clothing-item"></span>
-                    <span class="imgCheckbox1"><img src="icons/sunscreen.png" alt="sunscreen" data-item="sunscreen" id="item-sunscreen" class="clothing-item"></span>
-                    <span class="imgCheckbox1"><img src="icons/umbrella.png" alt="umbrella" data-item="umbrella" id="item-umbrella" class="clothing-item"></span>
+                    <!-- Dynamically populated from array -->
                 </div>
             </div>
-            <div class="row text-center ">
-                <div class="col-12">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <!-- STEP1 Buttons -->
+                    <button type="button" id="google-auth" class="btn btn-outline-primary btn-lg">Authorise</button>
+                    <button type="button" id="step1-next" class="btn btn-secondary">Next</button>
                     <!-- STEP2 Buttons -->
-                    <button type="button" id="step2-previous" class="btn btn-primary ">Previous</button>
-                    <button type="button" id="step2-next" class="btn btn-primary ">Next</button>
+                    <button type="button" id="step2-previous" class="btn btn-primary hidden">Previous</button>
+                    <button type="button" id="step2-next" class="btn btn-primary hidden">Next</button>
                     <!-- STEP3 Buttons -->
                     <button type="button" id="step3-previous" class="btn btn-primary hidden">Previous</button>
                     <button type="button" id="step3-next" class="btn btn-primary hidden">Next</button>
@@ -101,15 +117,16 @@
                     <button type="button" id="step4-next" class="btn btn-primary hidden">Next</button>
                 </div>
             </div>
-            <footer class="footer ">
-                <p>&copy; 2017</p>
-            </footer>
         </div>
-        <script src="https://code.jquery.com/jquery-3.2.1.min.js " integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=" anonymous "></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js "></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaNawaFmIi-kGyIDoa4HZ7j5WfR11w0DM "></script>
-        <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js "></script>
-        <script src="closet.js " type="text/javascript "></script>
+        <footer class="footer ">
+            <p>&copy; 2017</p>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=" anonymous></script>
+    <script src=" https://www.gstatic.com/firebasejs/4.6.0/firebase.js "></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaNawaFmIi-kGyIDoa4HZ7j5WfR11w0DM "></script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js "></script>
+    <script src="js/settings.js " type="text/javascript "></script>
 </body>
 
 </html>

@@ -62,6 +62,20 @@ span.imgCheckbox1 {
     border-image: initial;
 }
 
+
+span.imgSelected {
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    transition-duration: 300ms;
+    padding: 0px;
+    margin: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+
 span.imgCheckbox1:hover {
 	background: rgb(204, 204, 204);
 }
@@ -77,7 +91,7 @@ span.imgCheckbox1::before {
     z-index: 1;
     text-align: center;
     transition-duration: 300ms;
-    background-image: url("checkmark.svg");
+    background-image: url("../images/checkmark.svg");
     width: 30px;
     height: 30px;
     top: 0.5%;
