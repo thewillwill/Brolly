@@ -18,12 +18,20 @@ firebase.initializeApp(config);
 
 //this should eventually be made an array of clothing items?
 
-var clothingObjects = [{ "name": "glasses", "weatherType": "sun" },
-    { "name": "hat", "weatherType": "sun" },
-    { "name": "rain-jacket", "weatherType": "rain" },
-    { "name": "sweater", "weatherType": "temp" },
-    { "name": "sunscreen", "weatherType": "sun" },
-    { "name": "umbrella", "weatherType": "rain" }
+var initialglassesPref = 5;
+var initialHatPref = 5;
+var initialRainJacketPref = 50;
+var initialSweaterPref = 55;
+var initialSunscreenPref = 5;
+var initialUmbrellaPref = 50;
+
+
+var clothingObjects = [{ "name": "glasses", "weatherType": "sun", "pref": initialglassesPref },
+    { "name": "hat", "weatherType": "sun", "pref": initialHatPref },
+    { "name": "rain-jacket", "weatherType": "rain", "pref": initialRainJacketPref },
+    { "name": "sweater", "weatherType": "temp", "pref": initialSweaterPref },
+    { "name": "sunscreen", "weatherType": "sun", "pref": initialSunscreenPref },
+    { "name": "umbrella", "weatherType": "rain", "pref": initialUmbrellaPref }
 ]
 
 var clothingItems = ["glasses", "hat", "jacket", "sweater", "sunscreen", "umbrella"];
@@ -35,11 +43,6 @@ var $allSliders;
 
 //array to store the users preferences for each item
 var userPrefs = [];
-
-var $checkMarkImg = $("img").attr({
-    "class": "progress-check",
-    "src": "images/checkmark.svg"
-});
 
 var checkMarkImg = "<img src='images/checkmark.svg' class='progress-check'/>"
 
@@ -71,7 +74,7 @@ function hideStepButtons(stepNumber) {
 //Takes in the current step number and formats the progresss bar (text and checkmark icon)
 function renderProgressBar(currentStep) {
 
-    console.log('renderProgressBar', 'currentStep:', currentStep)
+    // console.log('renderProgressBar', 'currentStep:', currentStep)
 
     var previousStep = currentStep - 1;
     var nextStep = currentStep + 1;
@@ -108,7 +111,7 @@ function renderClothingItems() {
 
 
 function renderSelectedItems() {
-    
+
     //empty the <div> container
     $("#clothing-items-container").empty();
 
@@ -126,29 +129,30 @@ function renderSelectedItems() {
         var weatherType = $(child).attr("data-weather-type");
         var clothingItem = $(child).attr("data-item");
 
-        console.log("weatherType", weatherType);
+        // console.log("weatherType", weatherType);
 
         var $itemControls;
 
-        var $slider = $("<input>").addClass("slider").attr("data-item",clothingItem);
+        var $slider = $("<input>").addClass("slider").attr("data-item", clothingItem);
         switch (weatherType) {
             case 'sun':
                 textEnd = " when UV index greater than ";
-                sunSlider = $slider.attr({ "type": "range", "value" : 5, "max" : 10 , "id": "uv-slider" + i });
+                sunSlider = $slider.attr({ "type": "range", "value": initialHatPref, "max": 10, "id": "uv-slider" + i });
                 break;
             case 'temp':
                 textEnd = " when temperature less than ";
-                tempSlider = $slider.attr({ "type": "range", "min": 30, "value" : 50, "max" : 80 ,  "id": "temp-slider" + i });
+                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": initialSweaterPref, "max": 80, "id": "temp-slider" + i });
                 break;
             case 'rain':
                 // elements for the rain preferences
                 textEnd = " when chance of rain greater than ";
                 //give each rain slider a unique ID.
-                $slider = $slider.attr({ "type": "range", "id": "rain-slider" + i });
+                $slider = $slider.attr({ "type": "range", "value": initialUmbrellaPref, "id": "rain-slider" + i });
                 break;
             default:
                 textEnd = " when temperature less than ";
-                tempSlider = $slider.attr({ "type": "range", "id": "temp-slider" + i });
+                tempSlider = $slider.attr({ "type": "range", "min": 30, "value": initialSweaterPref, "max": 80, "id": "temp-slider" + i });
+                
         }
 
         //set the name of the item in the span.
@@ -158,7 +162,7 @@ function renderSelectedItems() {
 
         // console.log(selectedClothingItems[i].attr("data-weather-type"));
         var col2 = $("<div>").addClass("col-8").append($("<div>").addClass("row").append($itemControls).append($slider));
-        console.log('itemControls', $itemControls)
+        // console.log('itemControls', $itemControls)
         //append the rows to the page
         $("#clothing-items-container").append(newRow.append(col1).append(col2));
     }
@@ -166,45 +170,52 @@ function renderSelectedItems() {
     //set up each of the sliders to display correct values
     $allSliders = $(".slider");
 
+    
     for (var i = 0; i < $allSliders.length; i++) {
         var sliderID = $allSliders[i].id;
+        var sliderIDSet;
 
-        if (sliderID.indexOf("rain") != -1) {
+        // var clothingItemSet = false;
+        // clothingItem;
+        // if (!clothingItemSet) {
+        //     clothingItem = $("#" + sliderID).attr("data-item");
+        //     console.log('clothingItem', clothingItem)
+        //     clothingItemSet = true;
+        // }
 
-            $("#" + sliderID).rangeslider({
-                polyfill: false,
-                onInit: function() {
+        $("#" + sliderID).rangeslider({
+            polyfill: false,
+            onInit: function() {
+
+                if (sliderID.indexOf("rain") != -1) {
                     this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val() + "%");
-                     userPrefs[i] = this.$element.val();
-                },
-                onSlide: function(position, value) {
-                    this.output.html(value + "%");
 
-                    userPrefs[i] = this.$element.val();
-                }
-            });
-
-        } else if (sliderID.indexOf("temp") != -1) {
-            $("#" + sliderID).rangeslider({
-                polyfill: false,
-                onInit: function() {
-                    this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val() + "F");
-                },
-                onSlide: function(position, value) {
-                    this.output.html(value + "F");
-                }
-            });
-        } else if (sliderID.indexOf("uv") != -1) {
-            $("#" + sliderID).rangeslider({
-                polyfill: false,
-                onInit: function() {
+                } else {
                     this.output = $('<div class="range-output" />').insertBefore(this.$range).html(this.$element.val());
-                },
-                onSlide: function(position, value) {
+
+                }
+
+            },
+            onSlide: function(position, value) {
+                //display the new value on the screen
+                if (sliderID.indexOf("rain") != -1) {
+                    this.output.html(value + "%");
+                } else {
                     this.output.html(value);
                 }
-            });
-        }
+
+                //find the clothing item in the objects array and update the preference for that item
+                for (var i = 0; i < clothingObjects.length; i++) {
+                    var clothingItem = $(this.$element[0]).attr("data-item")
+                    // console.log("clothingItem: " + clothingItem);
+                    // console.log('clothingObjects[i].name: ', clothingObjects[i].name, i)
+                    if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
+                        // console.log('clothingObject found at pos: ', i)
+                        clothingObjects[i].pref = parseInt(this.$element.val());
+                    }
+                }
+            }
+        });
     }
 
 }
@@ -303,9 +314,7 @@ $(document).ready(function() {
 
             //display the selected items on the page
             renderSelectedItems();
-        }
-
-        else {
+        } else {
             $("#alert").empty().append("Please Select at least one item");
         }
 
