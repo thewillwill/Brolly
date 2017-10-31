@@ -45,10 +45,35 @@ function initClient() {
  */
 function updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
+        //hide step1 Buttons
+        $("#authorize-button").hide();
+        hideStepButtons(1);
+        //show step2 Buttons
+        showStepButtons(2);
+        //change progress bar
+        renderProgressBar(2)
+
+        console.log('renderClothingItems');
+
+        //show the initial list of clothing items
+        renderClothingItems();
+
+        //change the subheading
+        $("#step-subheading").text(headingStep2);
         authorizeButton.style.display = 'none';
         signoutButton.style.display = 'block';
         listUpcomingEvents();
     } else {
+        //hide step1 Buttons
+        hideStepButtons(2);
+        //show step1 Buttons
+        showStepButtons(1);
+        $("#authorize-button").show();
+        renderProgressBar(1);
+
+        $("#clothing-items-container").empty();
+        //show the initial list of clothing items
+        renderStep1();
         authorizeButton.style.display = 'block';
         signoutButton.style.display = 'none';
     }

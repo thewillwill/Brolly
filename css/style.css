@@ -217,3 +217,12 @@
          font-size: 150px;
      }
  }
+ 
+ ul {
+     list-style-type: none;
+     align-items: center;
+ }
+ 
+ .signup {
+     color: white;
+ }
