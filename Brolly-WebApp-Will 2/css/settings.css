@@ -1,0 +1,153 @@
+.hidden
+{
+   display: none
+}
+
+.progress-check {
+	width:25px;
+	height:25px;
+}
+
+.progress-text {
+	font-size: 0.8em;
+}
+
+.progress-text.done {
+
+}
+
+.progress-text.doing  {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.progress-text.todo, .progress-text.done {
+	
+}
+
+
+/********************************* 
+Clothing Items
+**********************************/
+
+
+.clothing-item {
+	width: 150px;
+	height: 150px;
+}
+
+/*.clothing-item.selected{ 
+	display: block;
+    transition-duration: 300ms;
+    transform: scale(1);
+    filter: grayscale(0);
+    margin: 0px;
+    padding: 0px;
+}
+
+.clothing-item:hover {
+	background: lightgreen;
+}
+*/
+span.imgCheckbox1 {
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    transition-duration: 300ms;
+    padding: 0px;
+    margin: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+
+pan.imgCheckbox2 {
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    transition-duration: 300ms;
+    padding: 0px;
+    margin: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+
+
+span.imgSelected {
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    transition-duration: 300ms;
+    padding: 0px;
+    margin: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+    border-image: initial;
+}
+
+span.imgCheckbox1:hover {
+	background: rgb(204, 204, 204);
+}
+
+
+span.imgCheckbox1::before {
+    display: block;
+    background-size: 100% 100%;
+    content: "";
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    transition-duration: 300ms;
+    background-image: url("../images/checkmark.svg");
+    width: 30px;
+    height: 30px;
+    top: 0.5%;
+    left: 0.5%;
+    transform: scale(0);
+    border-radius: 50%;
+    margin: 0.5%;
+}
+
+span.imgCheckbox1 img {
+    display: block;
+    transition-duration: 300ms;
+    transform: scale(1);
+    filter: grayscale(0);
+    margin: 0px;
+    padding: 0px;
+}
+
+span.imgCheckbox1.imgChked {
+    border-color: rgb(204, 204, 204);
+    background: none;
+}
+
+span.imgCheckbox1.imgChked::before {
+    transform: scale(1);
+}
+<style>…</style>
+span.imgCheckbox1::before {
+    display: block;
+    background-size: 100% 100%;
+    content: "";
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    transition-duration: 300ms;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…IgZD0iTTkuNSAzNzUuMmwxOS4zIDIyLjQgMjQuNS00MS0yNiAyOC4yeiIvPjwvZz48L3N2Zz4=");
+    width: 30px;
+    height: 30px;
+    top: 0.5%;
+    left: 0.5%;
+    transform: scale(0);
+    border-radius: 50%;
+    margin: 0.5%;
+}
