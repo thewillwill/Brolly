@@ -9,9 +9,6 @@ var config = {
 };
 firebase.initializeApp(config);
 
-
-
-
 //----------------------------------
 // Global Variables
 //----------------------------------
@@ -25,7 +22,6 @@ var initialSweaterPref = 55;
 var initialSunscreenPref = 5;
 var initialUmbrellaPref = 50;
 
-
 var clothingObjects = [{ "name": "glasses", "weatherType": "sun", "pref": initialglassesPref },
     { "name": "hat", "weatherType": "sun", "pref": initialHatPref },
     { "name": "rain-jacket", "weatherType": "rain", "pref": initialRainJacketPref },
@@ -34,15 +30,10 @@ var clothingObjects = [{ "name": "glasses", "weatherType": "sun", "pref": initia
     { "name": "umbrella", "weatherType": "rain", "pref": initialUmbrellaPref }
 ]
 
-var clothingItems = ["glasses", "hat", "jacket", "sweater", "sunscreen", "umbrella"];
-//"<span class='imgCheckbox1'><img src='images/icons/glasses.png' alt='glasses' data-item='glasses' id='item-glasses' class='clothing-item'></span><span class='imgCheckbox1'><img src='images/icons/hat.png' alt='hat' data-item='hat' id='item-hat' class='clothing-item'></span><span class='imgCheckbox1'><img src='images/icons/jacket.png' alt='jacket' data-item='jacket' id='item-jacket' class='clothing-item'></span><span class='imgCheckbox1'><img src='images/icons/sweater.png' alt='sweater' data-item='sweater' id='item-sweater' class='clothing-item'></span><span class='imgCheckbox1'><img src='images/icons/sunscreen.png' alt='sunscreen' data-item='sunscreen' id='item-sunscreen' class='clothing-item'></span><span class='imgCheckbox1'><img src='images/icons/umbrella.png' alt='umbrella' data-item='umbrella' id='item-umbrella' class='clothing-item'></span>";
 var selectedClothingItems;
 
 //array of all slider elements for selected clothing items
 var $allSliders;
-
-//array to store the users preferences for each item
-var userPrefs = [];
 
 var checkMarkImg = "<img src='images/checkmark.svg' class='progress-check'/>"
 
@@ -59,6 +50,12 @@ var headingStep4 = "Set User Alert Preferences";
 
 function renderStep1() {
     $("#clothing-items-container").empty().text(headingStep1);
+    showStepButtons(1);
+    $("#authorize-button").show();
+    renderProgressBar(1);
+
+    $("#clothing-items-container").empty();
+    //show the initial list of clothing items
 }
 
 function showStepButtons(stepNumber) {
@@ -152,7 +149,7 @@ function renderSelectedItems() {
             default:
                 textEnd = " when temperature less than ";
                 tempSlider = $slider.attr({ "type": "range", "min": 30, "value": getPref(clothingItem), "max": 80, "id": "temp-slider" + i });
-                
+
         }
 
         //set the name of the item in the span.
@@ -171,15 +168,15 @@ function renderSelectedItems() {
 
     //set up each of the sliders to display correct values
     $allSliders = $(".slider");
-    
+
     //go through each slider and add styling and set listeners for change to values    
     for (var i = 0; i < $allSliders.length; i++) {
         var sliderID = $allSliders[i].id;
         var sliderIDSet;
 
 
-       
-        $("#" + sliderID).rangeslider({         
+
+        $("#" + sliderID).rangeslider({
 
             polyfill: false,
             onInit: function() {
@@ -217,7 +214,7 @@ function updatePref(clothingItem, value) {
 }
 
 function getPref(clothingItem) {
-  console.log('getPref', 'clothingItem:', clothingItem)
+    console.log('getPref', 'clothingItem:', clothingItem)
     //go through the clothing objects array and update the preference for the matching item
     for (var i = 0; i < clothingObjects.length; i++) {
         if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
@@ -273,8 +270,6 @@ $(document).ready(function() {
         //change progress bar
         renderProgressBar(2)
 
-        console.log('renderClothingItems');
-
         //show the initial list of clothing items
         renderClothingItems();
 
@@ -287,12 +282,6 @@ $(document).ready(function() {
         //hide step1 Buttons
         hideStepButtons(2);
         //show step1 Buttons
-        showStepButtons(1);
-        $("#authorize-button").show();
-        renderProgressBar(1);
-
-        $("#clothing-items-container").empty();
-        //show the initial list of clothing items
         renderStep1();
     });
 
@@ -377,23 +366,16 @@ $(document).ready(function() {
         //change subheading
         $("#step-subheading").text(headingStep3);
 
-
-        //change progress bar
-        //change step3
-        //append a 3 instead of the check mark
-        $("#progress-icon-step3").empty().append("3");;
-        $("#progress-text-step3").removeClass("doing").addClass("todo");
-        //change step3
-        $("#progress-icon-step3").empty().append("3")
-        $("#progress-text-step3").removeClass("done").addClass("doing");
-
         //show the items the user slected
         renderSelectedItems();
 
     });
 
-    $(document).on("click", "#step4-Next", function() {
-        alert("don't click me, I don't do anything yet");
+    $(document).on("click", "#step4-next", function() {
+        //hide step4 Buttons
+        hideStepButtons(4);
+
+        $("#alert").text("Check preferences against todays calendar items and display items required");
     });
 
 
