@@ -1,22 +1,22 @@
-  //----------------------------------
+ //----------------------------------  //----------------------------------
  // Global Variables
  //----------------------------------
 
  //this should eventually be made an array of clothing items?
 
- var initialglassesPref = 5;
- var initialHatPref = 5;
+ var initialglassesPref = 5 ;
+ var initialHatPref = 5 ;
  var initialRainJacketPref = 50;
- var initialSweaterPref = 55;
+ var initialSweaterPref = 55 ;
  var initialSunscreenPref = 5;
  var initialUmbrellaPref = 50;
 
- var clothingObjects = [{ "name": "glasses", "weatherType": "sun", "pref": initialglassesPref, "today" : false },
-     { "name": "hat", "weatherType": "sun", "pref": initialHatPref ,"today" : false },
-     { "name": "rain-jacket", "weatherType": "rain", "pref": initialRainJacketPref, "today" : false },
-     { "name": "sweater", "weatherType": "temp", "pref": initialSweaterPref, "today" : false },
-     { "name": "sunscreen", "weatherType": "sun", "pref": initialSunscreenPref, "today" : false },
-     { "name": "umbrella", "weatherType": "rain", "pref": initialUmbrellaPref, "today" : false }
+ var clothingObjects = [{ "name": "glasses", "weatherType": "sun", "pref": initialglassesPref, "today" : false, "hasPref" : false },
+     { "name": "hat", "weatherType": "sun", "pref": initialHatPref ,"today" : false, "hasPref" : false  },
+     { "name": "rain-jacket", "weatherType": "rain", "pref": initialRainJacketPref, "today" : false, "hasPref" : false  },
+     { "name": "sweater", "weatherType": "temp", "pref": initialSweaterPref, "today" : false, "hasPref" : false  },
+     { "name": "sunscreen", "weatherType": "sun", "pref": initialSunscreenPref, "today" : false, "hasPref" : false  },
+     { "name": "umbrella", "weatherType": "rain", "pref": initialUmbrellaPref, "today" : false, "hasPref" : false  }
  ]
 
  var selectedClothingItems;
@@ -113,19 +113,30 @@
      }
  }
 
+
  function renderEventClothingItems(eventName, eventTime, clothingItems) {
- var col2 = $("<div>").addClass("col-8");
+  var col2 = $("<div>").addClass("col-12");
    var textStart = "For ";
-   var textMiddle;
-     if (clothingItems[i] == "glasses") {
-     textMiddle = "bring "
-   }
-   else {
-     textMiddle = "bring a ";
-   }
-   col2.append(textStart + eventName + " at " + eventTime)
+   // var textMiddle = "bring a ";
+   var length = clothingItems.length - 1;
+   console.log('length', length)
+  
+   col2.append(textStart + eventName + " at " + eventTime + "pm bring a ");
    for (var i = 0; i < clothingItems.length; i++) {
-     col2.append(textMiddle + clothingItems[i])
+    if (clothingItems.length > 1) {
+      console.log("i",  i);
+      console.log("length", length);
+      if (length === i) {
+        console.log(i);
+        col2.append(clothingItems[i]+ ".");
+      }
+      else {
+        col2.append(clothingItems[i] + " and ");
+      }
+    }
+    else {
+      col2.append(clothingItems[i]);
+    }
    }
    console.log('renderEventAlert', 'eventName:', eventName, 'evnetTime:', eventTime, 'clothingItem:', clothingItems[i])
 
@@ -135,15 +146,15 @@
    // var clothingItemImage = "<img src='images/icons/"+clothingItem+".png' class='clothing-item' alt='"+clothingItem+"''/>";
 
    var newRow = $("<div>").addClass("row");
-   var col1 = $("<div>").addClass("col-4").append("event");
+   // var col1 = $("<div>").addClass("col-4").append("event");
    
-   $("#clothing-items-container").append(newRow.append(col1).append(col2));
+   $("#clothing-items-container").append(newRow.append(col2));
 
  }
 
 
  function renderSelectedItems() {
-
+      console.log(clothingObjects);
      //empty the <div> container
      $("#clothing-items-container").empty();
 
@@ -244,6 +255,7 @@
          if (clothingObjects[i].name.indexOf(clothingItem) != -1) {
              // console.log('clothingObject found at pos: ', i)
              clothingObjects[i].pref = parseInt(value);
+              clothingObjects[i].hasPref = true;              
          }
      }
  }
@@ -488,6 +500,7 @@
 
              var hourlyData = response.hourly.data;
              var currentEvent = eventCalendarList[counter];
+             // console.log('currentEvent', currentEvent)
              var index = currentEvent.startTimeIndex;
              var appTemp = (hourlyData[index].apparentTemperature);
              var precProb = (hourlyData[index].precipProbability);
@@ -519,74 +532,66 @@
 
  function compareUserPref(eventWeatherList){
 
-   //console.log("call function");
-   console.log(eventWeatherList);
-   console.log(eventWeatherList.length);
-   console.log("--------");
-
    for (var j = 0; j < eventWeatherList.length; j++) {
 
      var currentWeatherData = eventWeatherList[j];
-     console.log(currentWeatherData, j);
+     console.log('currentWeatherData', currentWeatherData)
      var temp = currentWeatherData.appTemp;
-     // // console.log('temp', temp);
      var rainProb = currentWeatherData.precProb;
-     // // console.log('rainProb', rainProb)
      var uv = currentWeatherData.uvIndex;
-     // console.log('uv', uv)
      var eventName = currentWeatherData.eventName;
-     //console.log('eventName', eventName)
      var eventTime = currentWeatherData.startTime;
 
      var eventClothingItems = [];
+     // console.log('eventClothingItems', eventClothingItems)
 
-     for (i=0; i<clothingObjects.length; i++) {
+    for (i=0; i<clothingObjects.length; i++) {
+      console.log(clothingObjects);
 
-       console.log(clothingObjects[i]);
+      if (clothingObjects[i].hasPref == true) {
+        // console.log(clothingObjects[i]);
        var prefence = clothingObjects[i].pref;
-       console.log('prefence', prefence)
+       // console.log('prefence', prefence)
        var weatherType = clothingObjects[i].weatherType;
-       console.log('weatherType', weatherType)
-       var clothingItem = clothingObjects[i].name;
-         console.log('clothingItem', clothingItem)
+       var clothingItem = clothingObjects[i].name; 
 
-       // if (prefence.length > 0) {
-         console.log("hellp");
+        // if (prefence !== undefined) {
          if (weatherType === 'sun') {
            if (uv >= parseInt(prefence)) {
-             console.log("it's sunny");
              if (clothingItem === 'sunscreen') {
-               console.log("Wear your sunscreen!");
                eventClothingItems.push(clothingItem);
                clothingObjects[i].today = true;
                
              }
              else if (clothingItem === 'hat') {
-               console.log("Wear a hat.")
                eventClothingItems.push(clothingItem);
                clothingObjects[i].today = true;
              }
              else if (clothingItem === 'glasses') {
-               console.log("Wear your sunglasses "+"for "+ eventName + "." );
                eventClothingItems.push(clothingItem);
                clothingObjects[i].today = true;
              }
            }
          }
          if (weatherType === 'rain') {
-           if (rainProb > parseInt(prefence)) {
-             console.log("It's rainy");
-             eventClothingItems.push(clothingItem);
-             clothingObjects[i].today = true;
+           if (rainProb > parseInt(prefence/100)) {
+            if (clothingItem === 'umbrella') {
+              eventClothingItems.push(clothingItem);
+              clothingObjects[i].today = true;
+            }
+            else if (clothingItem === 'rain-jacket') {
+              eventClothingItems.push(clothingItem);
+              clothingObjects[i].today = true;
+            } 
            }
          }
          if (weatherType === 'temp') {
            if (temp < parseInt(prefence)) {
-             console.log("It's cold.");
              eventClothingItems.push(clothingItem);
              clothingObjects[i].today = true;
            }
          }
+      } 
    
      }
 
@@ -597,7 +602,6 @@
     
 
    }
- console.log("end of compareUserPref function");
 
  }
  // // Initialize Firebase
@@ -620,8 +624,6 @@
 
  //wait for the document to load before executing below
  $(document).ready(function() {
-
-
 
      //----------------------------------
      // on click listners
@@ -773,3 +775,4 @@
  });
 
  }
+
