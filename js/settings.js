@@ -394,9 +394,13 @@
    var eventWeatherList = [];
    var currentUserEmail ;
    
-   function storeUserEmail() {
-
-   }
+   function storeUserEmail(email) {
+      var database = firebase.database();
+       var usersList = database.ref("/users").push({
+           email: email,
+           timeStamp: firebase.database.ServerValue.TIMESTAMP,
+       });
+    }
      
 
    //Function that will get info from google calendar then send that info to dark sky.
@@ -604,16 +608,17 @@
    }
 
  }
- // // Initialize Firebase
- // var config = {
- //     apiKey: "AIzaSyDKNyh69deziNpJxi-XRro_OmuImyFj154",
- //     authDomain: "brolly-184217.firebaseapp.com",
- //     databaseURL: "https://brolly-184217.firebaseio.com",
- //     projectId: "brolly-184217",
- //     storageBucket: "brolly-184217.appspot.com",
- //     messagingSenderId: "240354309598"
- // };
- // firebase.initializeApp(config);
+
+ // Initialize Firebase
+ var config = {
+     apiKey: "AIzaSyDKNyh69deziNpJxi-XRro_OmuImyFj154",
+     authDomain: "brolly-184217.firebaseapp.com",
+     databaseURL: "https://brolly-184217.firebaseio.com",
+     projectId: "brolly-184217",
+     storageBucket: "brolly-184217.appspot.com",
+     messagingSenderId: "240354309598"
+ };
+ firebase.initializeApp(config);
 
 
 
