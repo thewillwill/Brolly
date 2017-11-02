@@ -1,6 +1,6 @@
 ![Brolly Web App Logo](https://cmatson93.github.io/Brolly-WebApp/images/brolly_icon_black.png "Brolly Logo")
 
-####Clothing recommendations matched to your schedule and the hyper local weather conditions
+#### Clothing recommendations matched to your schedule and the hyper local weather conditions
 
 ## Introduction:
 Brolly was created to solve a problem that one of our team members had. His wife asked if she would need to wear a sweater for an evening meeting she had in San Francisco. Not knowing exactly where the meeting was, what the weather was going to be and at what temperature she would want to wear a sweater an idea was born.
