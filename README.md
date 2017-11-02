@@ -1,4 +1,4 @@
-# Brolly-WebApp
+![Brolly Web App Logo](https://cmatson93.github.io/Brolly-WebApp/images/brolly_icon_black.png "Brolly Logo")
 
 Brolly - Clothing recommendations matched to your schedule and the hyper local weather conditions.
 
@@ -31,8 +31,8 @@ She should have her google calender connected to a service that can check the we
 
 
 ## Built With:
-1. https://darksky.net/dev
-2. https://developers.google.com/google-apps/calendar/quickstart/js
+1. Darksky API - https://darksky.net/dev
+2. Google Calendar API - https://developers.google.com/google-apps/calendar/quickstart/js
 
 
 ## Authors:
