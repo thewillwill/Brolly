@@ -28,7 +28,7 @@ The project was built as part of our Coding Bootcamp with a requirement to use f
 9. Once items and preferences are selected the user is then shown a list of their events with the recommended item to bring for each event and a summary of the items required (as icons) that the user should bring for the day.
 
 
-![Brolly Web App Logo](https://cmatson93.github.io/Brolly-WebApp/walkthrough "Brolly Logo")
+![Brolly Web App Logo](https://cmatson93.github.io/Brolly-WebApp/walkthrough.gif "Brolly Logo")
 
 
 ## Built With:
