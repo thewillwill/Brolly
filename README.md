@@ -39,8 +39,6 @@ The project was built as part of our Coding Bootcamp with a requirement to use f
 ## Authors:
 1. Christina Matson
 2. William Brooks
-2. Patrick Luu
-3. Navid Yousefzai
 
 ## Acknowledgments:
 Instructor: David Hallinan
